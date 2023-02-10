@@ -102,99 +102,99 @@ end
 
 for i = 1:NbTrials
     
-    % Skips trials where answer came after responses window
-    % or with impossible RT (negative or before the beginning of the movie)
-    if TotalTrials{1, 1}(i, 6) > 0.5
-        
-        Context = TotalTrials{1, 1}(i, 4); % What block we are in
-        
-        TrialType = TotalTrials{1, 1}(i, 5);
-        
-        if TotalTrials{1, 1}(i, 8) == 1
-            switch TrialType
-                case 0
-                    RightResp = 1;
-                case 1
-                    RightResp = 1;
-                case 2
-                    RightResp = 2;
-            end
-        elseif TotalTrials{1, 1}(i, 8) == 0
-            switch TrialType
-                case 0
-                    RightResp = 2;
-                case 1
-                    RightResp = 2;
-                case 2
-                    RightResp = 1;
-            end
-        else
-            RightResp = 2;
-        end
-        
-        RT = TotalTrials{1, 1}(i, 6);
-        
-        if ismac
-            switch KbName(TotalTrials{1, 1}(i, 7)) % Check responses given
-                case RespB
-                    Resp = 1;
-                    
-                case RespD
-                    Resp = 2;
-                    
-                case RespG
-                    Resp = 3;
-                    
-                case RespK
-                    Resp = 4;
-                    
-                case RespP
-                    Resp = 5;
-                    
-                case RespT
-                    Resp = 6;
-                    
-                otherwise
-                    Resp = 7;
-            end
-        else
-            Resp = 7;
-        end
-        
+    reaction_time_sec = TotalTrials{1, 1}(i, 6);
+    if reaction_time_sec <= 0.5
+        continue
+    end
+    
+    Context = TotalTrials{1, 1}(i, 4); % What block we are in
+    
+    TrialType = TotalTrials{1, 1}(i, 5);
+    
+    if TotalTrials{1, 1}(i, 8) == 1
         switch TrialType
             case 0
-                TotalTrials{2, 1}(i, :)
-                WhichStim = which_stim_for_this_trial(TotalTrials{2, 1}(i, :), NbCongMovies, TrialType, StimByStimRespRecap);
+                RightResp = 1;
             case 1
-                WhichStim = which_stim_for_this_trial(TotalTrials{2, 1}(i, :), NbIncongMovies, TrialType, StimByStimRespRecap);
+                RightResp = 1;
             case 2
-                WhichStim = which_stim_for_this_trial(TotalTrials{2, 1}(i, :), NbMcMovies, TrialType, StimByStimRespRecap);
+                RightResp = 2;
         end
-        
-        if TotalTrials{1, 1}(i, 8) ~= 999
-            ResponsesCell{TrialType + 1, Context + 1}(RightResp, TotalTrials{1, 1}(i, 2)) = ...
-                ResponsesCell{TrialType + 1, Context + 1}(RightResp, TotalTrials{1, 1}(i, 2)) + 1;
+    elseif TotalTrials{1, 1}(i, 8) == 0
+        switch TrialType
+            case 0
+                RightResp = 2;
+            case 1
+                RightResp = 2;
+            case 2
+                RightResp = 1;
         end
-        
-        StimByStimRespRecap{1, 2, TrialType + 1}(WhichStim, Resp, TotalTrials{1, 1}(i, 2), Context + 1) = StimByStimRespRecap{1, 2, TrialType + 1}(WhichStim, Resp, TotalTrials{1, 1}(i, 2), Context + 1) + 1;
-        
-        if TotalTrials{1, 1}(i, 8) ~= 999
-            ReactionTimesCell{TrialType + 1, RightResp, Context + 1} = [ReactionTimesCell{TrialType + 1, RightResp, Context + 1} RT];
-        end
-        
-        if TotalTrials{1, 1}(i, 8) ~= 999
-            switch TrialType
-                case 2
-                    McGurkStimByStimRespRecap{WhichStim, 2}(Context + 1, RightResp) = McGurkStimByStimRespRecap{WhichStim, 2}(Context + 1, RightResp) + 1;
-                case 1
-                    INCStimByStimRespRecap{WhichStim, 2}(RightResp) = INCStimByStimRespRecap{WhichStim, 2}(RightResp) + 1;
-                case 0
-                    CONStimByStimRespRecap{WhichStim, 2}(RightResp) = CONStimByStimRespRecap{WhichStim, 2}(RightResp) + 1;
-                    
-            end
-        end
-        
+    else
+        RightResp = 2;
     end
+    
+    RT = TotalTrials{1, 1}(i, 6);
+    
+    if ismac
+        switch KbName(TotalTrials{1, 1}(i, 7)) % Check responses given
+            case RespB
+                Resp = 1;
+                
+            case RespD
+                Resp = 2;
+                
+            case RespG
+                Resp = 3;
+                
+            case RespK
+                Resp = 4;
+                
+            case RespP
+                Resp = 5;
+                
+            case RespT
+                Resp = 6;
+                
+            otherwise
+                Resp = 7;
+        end
+    else
+        Resp = 7;
+    end
+    
+    switch TrialType
+        case 0
+            TotalTrials{2, 1}(i, :)
+            WhichStim = which_stim_for_this_trial(TotalTrials{2, 1}(i, :), NbCongMovies, TrialType, StimByStimRespRecap);
+        case 1
+            WhichStim = which_stim_for_this_trial(TotalTrials{2, 1}(i, :), NbIncongMovies, TrialType, StimByStimRespRecap);
+        case 2
+            WhichStim = which_stim_for_this_trial(TotalTrials{2, 1}(i, :), NbMcMovies, TrialType, StimByStimRespRecap);
+    end
+    
+    if TotalTrials{1, 1}(i, 8) ~= 999
+        ResponsesCell{TrialType + 1, Context + 1}(RightResp, TotalTrials{1, 1}(i, 2)) = ...
+            ResponsesCell{TrialType + 1, Context + 1}(RightResp, TotalTrials{1, 1}(i, 2)) + 1;
+    end
+    
+    StimByStimRespRecap{1, 2, TrialType + 1}(WhichStim, Resp, TotalTrials{1, 1}(i, 2), Context + 1) = StimByStimRespRecap{1, 2, TrialType + 1}(WhichStim, Resp, TotalTrials{1, 1}(i, 2), Context + 1) + 1;
+    
+    if TotalTrials{1, 1}(i, 8) ~= 999
+        ReactionTimesCell{TrialType + 1, RightResp, Context + 1} = [ReactionTimesCell{TrialType + 1, RightResp, Context + 1} RT];
+    end
+    
+    if TotalTrials{1, 1}(i, 8) ~= 999
+        switch TrialType
+            case 2
+                McGurkStimByStimRespRecap{WhichStim, 2}(Context + 1, RightResp) = McGurkStimByStimRespRecap{WhichStim, 2}(Context + 1, RightResp) + 1;
+            case 1
+                INCStimByStimRespRecap{WhichStim, 2}(RightResp) = INCStimByStimRespRecap{WhichStim, 2}(RightResp) + 1;
+            case 0
+                CONStimByStimRespRecap{WhichStim, 2}(RightResp) = CONStimByStimRespRecap{WhichStim, 2}(RightResp) + 1;
+                
+        end
+    end
+    
 end
 
 clear TrialType Context RT RightResp i WhichStim Resp NoiseRange;
