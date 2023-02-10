@@ -376,7 +376,7 @@ else
     end
 end
 
-clear G Color i n figure_counter List Trials legend t Temp X Y;
+clear G Color i n figure_counter List Trials legend t Temp X Y reaction_time_sec;
 
 SavedMat = strcat('Results_', SubjID, '.mat');
 
