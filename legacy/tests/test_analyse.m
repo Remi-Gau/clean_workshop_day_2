@@ -22,6 +22,7 @@ function test_analyse_smoke()
     results = load(fullfile(subject_dir, 'Behavioral', 'Results_PIEMSI_1.mat'));
 
     assertEqual(results, expected);
+    
 
     delete(fullfile(subject_dir, 'Behavioral', 'Figures.ps'));
     delete(fullfile(subject_dir, 'Behavioral', 'Results_PIEMSI_1.mat'));

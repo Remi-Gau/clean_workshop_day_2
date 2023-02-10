@@ -26,7 +26,7 @@ function Analyse
     close all;
 
     % Figure counter
-    n = 1;
+   figure_counter = 1;
 
     cd Behavioral;
 
@@ -57,8 +57,8 @@ function Analyse
 
         % --------------------------------------------- FIGURE --------------------------------------------------------
         % A first quick figure to have look at the different reactions times
-        figure(n);
-        n = n + 1;
+        figure(figure_counter);
+        figure_counter = figure_counter + 1;
 
         scatter(15 * TotalTrials{1, 1}(:, 5) + TotalTrials{1, 1}(:, 2), TotalTrials{1, 1}(:, 6));
         xlabel 'Trial Number';
@@ -252,8 +252,8 @@ function Analyse
         end
 
         % --------------------------------------------- FIGURE --------------------------------------------------------
-        figure(n);
-        n = n + 1;
+        figure(figure_counter);
+        figure_counter = figure_counter + 1;
 
         % Plots histograms for % correct for all the McGurk trials
         hold on;
@@ -267,8 +267,8 @@ function Analyse
         legend(['In a CON Block'; 'In a INC Block'], 'Location', 'SouthEast');
         axis([0.5 2.5 0 1]);
 
-        figure(n);
-        n = n + 1;
+        figure(figure_counter);
+        figure_counter = figure_counter + 1;
 
         % Plots histograms for % correct for all the McGurk trials
         hold on;
@@ -305,8 +305,8 @@ function Analyse
         RT_McGURK_NO_inINC_TOTAL = nanmedian(ReactionTimesCell{3, 2, 2});
 
         % --------------------------------------------- FIGURE --------------------------------------------------------
-        figure(n);
-        n = n + 1;
+        figure(figure_counter);
+        figure_counter = figure_counter + 1;
 
         for j = 1:NbMcMovies
 
@@ -356,12 +356,12 @@ function Analyse
 
             figure(1);
             print(gcf, 'Figures.ps', '-dpsc2'); % Print figures in ps format
-            for i = 2:(n - 1)
+            for i = 2:(figure_counter - 1)
                 figure(i);
                 print(gcf, 'Figures.ps', '-dpsc2', '-append');
             end
 
-            for i = 1:(n - 1)
+            for i = 1:(figure_counter - 1)
                 figure(i);
                 print(gcf, strcat('Fig', num2str(i), '.eps'), '-depsc');
             end
@@ -369,14 +369,14 @@ function Analyse
         else
             % Prints the results in a vector graphic file !!!
             % Find a way to loop this as well !!!
-            for i = 1:(n - 1)
+            for i = 1:(figure_counter - 1)
                 figure(i);
                 print(gcf, strcat('Fig', num2str(i), '.svg'), '-dsvg');
                 print(gcf, strcat('Fig', num2str(i), '.pdf'), '-dpdf');
             end
         end
 
-        clear G Color i n List Trials legend t Temp X Y;
+        clear G Color i n figure_counter List Trials legend t Temp X Y;
 
         SavedMat = strcat('Results_', SubjID, '.mat');
 
