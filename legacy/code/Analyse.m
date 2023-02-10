@@ -164,12 +164,13 @@ function Analyse
 
                 switch TrialType
                     case 0
-                        WhichStim = find(strcmp (cellstr(repmat(TotalTrials{2, 1}(i, :), NbCongMovies, 1)), StimByStimRespRecap{1, 1, TrialType + 1}));
-                    case 1
-                        WhichStim = find(strcmp (cellstr(repmat(TotalTrials{2, 1}(i, :), NbIncongMovies, 1)), StimByStimRespRecap{1, 1, TrialType + 1}));
+                        TotalTrials{2, 1}(i, :)
+                        WhichStim = which_stim_for_this_trial(TotalTrials{2, 1}(i, :), NbCongMovies, TrialType, StimByStimRespRecap);
+                  case 1
+                        WhichStim = which_stim_for_this_trial(TotalTrials{2, 1}(i, :), NbIncongMovies, TrialType, StimByStimRespRecap);
                     case 2
-                        WhichStim = find(strcmp (cellstr(repmat(TotalTrials{2, 1}(i, :), NbMcMovies, 1)), StimByStimRespRecap{1, 1, TrialType + 1}));
-                end
+                        WhichStim = which_stim_for_this_trial(TotalTrials{2, 1}(i, :), NbMcMovies, TrialType, StimByStimRespRecap);
+                 end
 
                 if TotalTrials{1, 1}(i, 8) ~= 999
                     ResponsesCell{TrialType + 1, Context + 1}(RightResp, TotalTrials{1, 1}(i, 2)) = ...
@@ -390,6 +391,13 @@ function Analyse
     end
     
    
+end
+
+function value = which_stim_for_this_trial(tmp, NbMovies, TrialType, StimByStimRespRecap)
+value = find(strcmp (cellstr(repmat(tmp, ...
+                                    NbMovies, ...
+                                    1)), ...
+            StimByStimRespRecap{1, 1, TrialType + 1}));
 end
 
 function value = IsOctave()
