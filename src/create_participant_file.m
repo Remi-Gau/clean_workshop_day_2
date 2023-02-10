@@ -1,5 +1,5 @@
 function filename = create_participant_file(subject_number, task_name, run_number)
-
+    % (C) Copyright 2023 Remi Gau
     assert(isnumeric(run_number), 'run number should be a number');
 
     if isnumeric(subject_number)

@@ -1,3 +1,4 @@
+% (C) Copyright 2023 Remi Gau
 test_folder = fullfile(pwd, 'tests');
 source_cover =  fullfile(pwd, 'code');
 
