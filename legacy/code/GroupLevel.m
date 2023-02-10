@@ -267,7 +267,7 @@ function GroupLevel
     GroupStimByStimAllResults;
 
     figure(1);
-    print(gcf, 'Figures.ps', '-dpsc2'); 
+    print(gcf, 'Figures.ps', '-dpsc2');
     for i = 2:(n - 1)
         figure(i);
         print(gcf, 'Figures.ps', '-dpsc2', '-append');

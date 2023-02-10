@@ -34,11 +34,11 @@ NbRunsDone = SizeFilesList;
 % Compile all the trials of all the runs
 TotalTrials = cell(2, 1);
 for RunNb = 1:SizeFilesList
-    
+
     ResultsFilesList = dir ('Subject*.mat');
-    
+
     load(ResultsFilesList(RunNb).name);
-    
+
     TotalTrials{1, 1} = [TotalTrials{1, 1}; Trials{1, 1}];
     TotalTrials{2, 1} = [TotalTrials{2, 1}; Trials{2, 1}];
     NoiseRangeCompil(:, :, RunNb) = NoiseRange;
@@ -58,7 +58,7 @@ McGurkStimByStimRespRecap = cell(NbMcMovies, 2);
 for i = 1:NbMcMovies
     StimByStimRespRecap{1, 1, 3}(i, :) = McMoviesDirList(i).name(1:end - 4);
     StimByStimRespRecap{1, 2, 3} = zeros(i, 7, NbTrialsPerBlock, NbBlockType);
-    
+
     McGurkStimByStimRespRecap{i, 2} = zeros(NbBlockType, 2);
     McGurkStimByStimRespRecap{i, 1} = McMoviesDirList(i).name(1:end - 4);
 end
@@ -66,13 +66,13 @@ end
 for i = 1:NbIncongMovies
     StimByStimRespRecap{1, 1, 1}(i, :) = CongMoviesDirList(i).name(1:end - 4); % Which stimuli
     StimByStimRespRecap{1, 2, 1} = zeros(i, 7, NbTrialsPerBlock, NbBlockType); % What answers
-    
+
     CONStimByStimRespRecap{i, 2} = zeros(2, 1);
     CONStimByStimRespRecap{i, 1} = CongMoviesDirList(i).name(1:end - 4);
-    
+
     StimByStimRespRecap{1, 1, 2}(i, :) = IncongMoviesDirList(i).name(1:end - 4);
     StimByStimRespRecap{1, 2, 2} = zeros(i, 7, NbTrialsPerBlock, NbBlockType);
-    
+
     INCStimByStimRespRecap{i, 2} = zeros(2, 1);
     INCStimByStimRespRecap{i, 1} = IncongMoviesDirList(i).name(1:end - 4);
 end
@@ -85,16 +85,16 @@ for i = 1:NbBlockType * 3
 end
 
 for i = 1:NbTrials
-    
+
     reaction_time_sec = TotalTrials{1, 1}(i, 6);
     if reaction_time_sec <= cfg.REACTION_TIME_THRESHOLD
         continue
     end
-    
+
     Context = TotalTrials{1, 1}(i, 4); % What block we are in
-    
+
     TrialType = TotalTrials{1, 1}(i, 5);
-    
+
     RightResp = 2;
     if TotalTrials{1, 1}(i, 8) == 1
         switch TrialType
@@ -115,36 +115,36 @@ for i = 1:NbTrials
                 RightResp = 1;
         end
     end
-    
+
     RT = TotalTrials{1, 1}(i, 6);
-    
+
     if ismac
         switch KbName(TotalTrials{1, 1}(i, 7)) % Check responses given
             case RespB
                 Resp = 1;
-                
+
             case RespD
                 Resp = 2;
-                
+
             case RespG
                 Resp = 3;
-                
+
             case RespK
                 Resp = 4;
-                
+
             case RespP
                 Resp = 5;
-                
+
             case RespT
                 Resp = 6;
-                
+
             otherwise
                 Resp = 7;
         end
     else
         Resp = 7;
     end
-    
+
     switch TrialType
         case 0
             TotalTrials{2, 1}(i, :)
@@ -154,18 +154,18 @@ for i = 1:NbTrials
         case 2
             WhichStim = which_stim_for_this_trial(TotalTrials{2, 1}(i, :), NbMcMovies, TrialType, StimByStimRespRecap);
     end
-    
+
     if TotalTrials{1, 1}(i, 8) ~= 999
         ResponsesCell{TrialType + 1, Context + 1}(RightResp, TotalTrials{1, 1}(i, 2)) = ...
             ResponsesCell{TrialType + 1, Context + 1}(RightResp, TotalTrials{1, 1}(i, 2)) + 1;
     end
-    
+
     StimByStimRespRecap{1, 2, TrialType + 1}(WhichStim, Resp, TotalTrials{1, 1}(i, 2), Context + 1) = StimByStimRespRecap{1, 2, TrialType + 1}(WhichStim, Resp, TotalTrials{1, 1}(i, 2), Context + 1) + 1;
-    
+
     if TotalTrials{1, 1}(i, 8) ~= 999
         ReactionTimesCell{TrialType + 1, RightResp, Context + 1} = [ReactionTimesCell{TrialType + 1, RightResp, Context + 1} RT];
     end
-    
+
     if TotalTrials{1, 1}(i, 8) ~= 999
         switch TrialType
             case 2
@@ -174,10 +174,10 @@ for i = 1:NbTrials
                 INCStimByStimRespRecap{WhichStim, 2}(RightResp) = INCStimByStimRespRecap{WhichStim, 2}(RightResp) + 1;
             case 0
                 CONStimByStimRespRecap{WhichStim, 2}(RightResp) = CONStimByStimRespRecap{WhichStim, 2}(RightResp) + 1;
-                
+
         end
     end
-    
+
 end
 
 clear TrialType Context RT RightResp i WhichStim Resp NoiseRange;
@@ -292,38 +292,38 @@ figure(figure_counter);
 figure_counter = figure_counter + 1;
 
 for j = 1:NbMcMovies
-    
+
     subplot (2, 4, j);
-    
+
     for i = 1:max(NbTrialsPerBlock)
         Temp = StimByStimRespRecap{1, 2, 3}(j, :, i, 1);
         G (i, :) = Temp / sum(Temp);
     end
-    
+
     bar(G, 'stacked');
-    
+
     t = title (StimByStimRespRecap{1, 1, 3}(j, :));
     set(t, 'fontsize', 15);
     set(gca, 'tickdir', 'out', 'xtick', 1:max(NbTrialsPerBlock), 'xticklabel', 1:max(NbTrialsPerBlock), 'ticklength', [0.005 0], 'fontsize', 13);
     axis 'tight';
-    
+
 end
 
 for j = 1:NbMcMovies
-    
+
     subplot (2, 4, j + NbMcMovies);
-    
+
     for i = 1:max(NbTrialsPerBlock)
         Temp = StimByStimRespRecap{1, 2, 3}(j, :, i, 2);
         G (i, :) = Temp / sum(Temp);
     end
-    
+
     bar(G, 'stacked');
-    
+
     set(t, 'fontsize', 15);
     set(gca, 'tickdir', 'out', 'xtick', 1:max(NbTrialsPerBlock), 'xticklabel', 1:max(NbTrialsPerBlock), 'ticklength', [0.005 0], 'fontsize', 13);
     axis 'tight';
-    
+
 end
 
 legend(['b'; 'd'; 'g'; 'k'; 'p'; 't'; ' ']);
@@ -349,19 +349,19 @@ end
 
 function save_figures(figure_counter)
 if IsOctave == 0
-    
+
     figure(1);
     print(gcf, 'Figures.ps', '-dpsc2'); % Print figures in ps format
     for i = 2:(figure_counter - 1)
         figure(i);
         print(gcf, 'Figures.ps', '-dpsc2', '-append');
     end
-    
+
     for i = 1:(figure_counter - 1)
         figure(i);
         print(gcf, strcat('Fig', num2str(i), '.eps'), '-depsc');
     end
-    
+
 else
     % Prints the results in a vector graphic file !!!
     % Find a way to loop this as well !!!
