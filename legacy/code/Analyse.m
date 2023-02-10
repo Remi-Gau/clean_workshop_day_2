@@ -50,19 +50,7 @@ if exist('NoiseRange') == 0
     NoiseRange = zeros(1, NbMcMovies);
 end
 
-% --------------------------------------------- FIGURE --------------------------------------------------------
-% A first quick figure to have look at the different reactions times
-figure(figure_counter);
-figure_counter = figure_counter + 1;
-
-scatter(15 * TotalTrials{1, 1}(:, 5) + TotalTrials{1, 1}(:, 2), TotalTrials{1, 1}(:, 6));
-xlabel 'Trial Number';
-ylabel 'Response Time';
-set(gca, 'tickdir', 'out', 'xtick', [1 16 31], 'xticklabel', 'Congruent|Incongruent|McGurk', 'ticklength', [0.002 0], 'fontsize', 13);
-axis 'tight';
-set(gca, 'ylim', [-.5 10]);
-
-% ------------------------------------------------------------------------------------------------------------------
+figure_counter = figure_reaction_time(TotalTrials, figure_counter);
 
 StimByStimRespRecap = cell(1, 2, 3);
 McGurkStimByStimRespRecap = cell(NbMcMovies, 2);
@@ -379,6 +367,24 @@ SavedMat = strcat('Results_', SubjID, '.mat');
 save (SavedMat);
 
 cd ..;
+
+end
+
+function figure_counter = figure_reaction_time(TotalTrials, figure_counter)
+figure(figure_counter);
+figure_counter = figure_counter + 1;
+
+scatter(15 * TotalTrials{1, 1}(:, 5) + TotalTrials{1, 1}(:, 2), TotalTrials{1, 1}(:, 6));
+xlabel 'Trial Number';
+ylabel 'Response Time';
+set(gca, ...
+    'tickdir', 'out', ...
+    'xtick', [1 16 31], ...
+    'xticklabel', 'Congruent|Incongruent|McGurk', ...
+    'ticklength', [0.002 0], ...
+    'fontsize', 13);
+axis 'tight';
+set(gca, 'ylim', [-.5 10]);
 
 end
 
