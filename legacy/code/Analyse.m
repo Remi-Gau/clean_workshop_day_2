@@ -95,6 +95,7 @@ for i = 1:NbTrials
     
     TrialType = TotalTrials{1, 1}(i, 5);
     
+    RightResp = 2;
     if TotalTrials{1, 1}(i, 8) == 1
         switch TrialType
             case 0
@@ -113,8 +114,6 @@ for i = 1:NbTrials
             case 2
                 RightResp = 1;
         end
-    else
-        RightResp = 2;
     end
     
     RT = TotalTrials{1, 1}(i, 6);
@@ -335,7 +334,20 @@ ylabel 'After CON';
 subplot (2, 4, 5);
 ylabel 'After INC';
 
-% --------------------------------------------- PRINTING & SAVING --------------------------------------------------------
+save_figures(figure_counter);
+
+clear G Color i n figure_counter List Trials legend t Temp X Y reaction_time_sec cfg;
+
+SavedMat = strcat('Results_', SubjID, '.mat');
+
+save (SavedMat);
+
+cd ..;
+
+end
+
+
+function save_figures(figure_counter)
 if IsOctave == 0
     
     figure(1);
@@ -346,7 +358,7 @@ if IsOctave == 0
     end
     
     for i = 1:(figure_counter - 1)
-        figure(i);reaction_time_sec
+        figure(i);
         print(gcf, strcat('Fig', num2str(i), '.eps'), '-depsc');
     end
     
@@ -359,15 +371,6 @@ else
         print(gcf, strcat('Fig', num2str(i), '.pdf'), '-dpdf');
     end
 end
-
-clear G Color i n figure_counter List Trials legend t Temp X Y reaction_time_sec cfg;
-
-SavedMat = strcat('Results_', SubjID, '.mat');
-
-save (SavedMat);
-
-cd ..;
-
 end
 
 function figure_counter = figure_reaction_time(TotalTrials, figure_counter)
