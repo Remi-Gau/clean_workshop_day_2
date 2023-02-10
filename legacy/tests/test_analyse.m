@@ -13,7 +13,9 @@ function test_analyse_smoke()
     subject_dir = fullfile(data_dir, 'sub-01');
     cd(subject_dir);
 
-    Analyse;
+    cfg.REACTION_TIME_THRESHOLD = 0.5;
+    
+    Analyse(cfg);
 
     assert(exist(fullfile(subject_dir, 'Behavioral', 'Figures.ps'), 'file') == 2);
     assert(exist(fullfile(subject_dir, 'Behavioral', 'Results_PIEMSI_1.mat'), 'file') == 2);

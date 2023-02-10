@@ -1,4 +1,4 @@
-function Analyse
+function Analyse(cfg)
 
 % (C) Copyright 2023 Remi Gau
 %
@@ -20,10 +20,6 @@ function Analyse
 % {3,1} contains the level of noise used for this stimuli
 % {4,1} contains the absolute path of the corresponding movie to be played
 % {5,1} contains the absolute path of the corresponding sound to be played
-
-clc;
-clear all;
-close all;
 
 % Figure counter
 figure_counter = 1;
@@ -103,7 +99,7 @@ end
 for i = 1:NbTrials
     
     reaction_time_sec = TotalTrials{1, 1}(i, 6);
-    if reaction_time_sec <= 0.5
+    if reaction_time_sec <= cfg.REACTION_TIME_THRESHOLD
         continue
     end
     
@@ -362,7 +358,7 @@ if IsOctave == 0
     end
     
     for i = 1:(figure_counter - 1)
-        figure(i);
+        figure(i);reaction_time_sec
         print(gcf, strcat('Fig', num2str(i), '.eps'), '-depsc');
     end
     
@@ -376,7 +372,7 @@ else
     end
 end
 
-clear G Color i n figure_counter List Trials legend t Temp X Y reaction_time_sec;
+clear G Color i n figure_counter List Trials legend t Temp X Y reaction_time_sec cfg;
 
 SavedMat = strcat('Results_', SubjID, '.mat');
 
