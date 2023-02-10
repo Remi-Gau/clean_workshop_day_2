@@ -267,7 +267,7 @@ function GroupLevel
     GroupStimByStimAllResults;
 
     figure(1);
-    print(gcf, 'Figures.ps', '-dpsc2'); % Print figures in ps format
+    print(gcf, 'Figures.ps', '-dpsc2'); 
     for i = 2:(n - 1)
         figure(i);
         print(gcf, 'Figures.ps', '-dpsc2', '-append');
@@ -275,7 +275,7 @@ function GroupLevel
 
     for i = 1:(n - 1)
         figure(i);
-        print(gcf, strcat('Fig', num2str(i), '.eps'), '-depsc'); % Print figures in vector format
+        print(gcf, strcat('Fig', num2str(i), '.eps'), '-depsc');
     end
 
     SavedGroupTxt = strcat('Group_Results.csv');
