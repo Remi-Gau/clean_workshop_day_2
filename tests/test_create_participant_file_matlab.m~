@@ -1,5 +1,5 @@
 function tests = test_create_participant_file_matlab %#ok<STOUT>
-    % (C) Copyright 2023 Remi Gau
+  % (C) Copyright 2021 bidspm developers
     tests = functiontests(localfunctions);
 end
 

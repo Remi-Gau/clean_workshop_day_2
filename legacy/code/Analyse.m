@@ -1,5 +1,6 @@
 function Analyse
 
+    % (C) Copyright 2023 Remi Gau
     %
 
     % Returns a {5,1,rMAX} cell where rMAX is the total number of run
